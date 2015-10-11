@@ -2,6 +2,7 @@
 
 import configparser
 import csv
+import glob
 import psycopg2
 import requests
 import sys
@@ -73,6 +74,7 @@ def store_event(cur, page_id, fb_id, name, description, start_time, place_name, 
 if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.readfp(open("config.ini", "r"))
+    config.read(glob.glob("*.priv.ini"))
 
     dbstring = "host={} dbname={} user={} password={}".format(config.get("database", "host"),
                                                               config.get("database", "dbname"),
