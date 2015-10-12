@@ -1,16 +1,12 @@
 #!/usr/bin/python3
 
-import configparser
 import csv
-import glob
 import psycopg2
 import requests
 import sys
 
+from common import get_config, db_string, ERROR
 
-
-def ERROR(msg, *a, **k):
-    print(msg, *a, file=sys.stderr, **k)
 
 def fetch_data(page_id, token):
     url = "https://graph.facebook.com/{version}/{page_id}/events?access_token={token}".format(
@@ -72,14 +68,8 @@ def store_event(cur, page_id, fb_id, name, description, start_time, place_name, 
 
 
 if __name__ == "__main__":
-    config = configparser.ConfigParser()
-    config.readfp(open("config.ini", "r"))
-    config.read(glob.glob("*.priv.ini"))
-
-    dbstring = "host={} dbname={} user={} password={}".format(config.get("database", "host"),
-                                                              config.get("database", "dbname"),
-                                                              config.get("database", "user"),
-                                                              config.get("database", "password"))
+    config = get_config()
+    dbstring = db_string(config)
 
     token = config.get("facebook", "token")
     pages = config.get("facebook", "pages")

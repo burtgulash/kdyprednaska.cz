@@ -1,6 +1,16 @@
 !!! 5
 html(lang="cz")
     head
+        meta(charset="utf-8")
         title Přednášky Na VŠE
     body
-        h1 Hello #{name}
+        h1 Přednášky Na VŠE
+        ul
+            for event in events
+                li
+                    div
+                        span.page= event.page_id
+                        span.name= event.name
+                    div
+                        div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
+                        div.place= event.place_name

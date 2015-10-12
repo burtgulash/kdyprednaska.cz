@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 
 import configparser
-import glob
 import jinja2
 import psycopg2
+import psycopg2.extras
+
+from common import get_config, db_string
 
 j2 = jinja2.Environment(
     loader=jinja2.FileSystemLoader("layouts"),
@@ -11,20 +13,14 @@ j2 = jinja2.Environment(
 )
 
 if __name__ == "__main__":
-    config = configparser.ConfigParser()
-    config.readfp(open("config.ini", "r"))
-    config.read(glob.glob("*.priv.ini"))
-
-    dbstring = "host={} dbname={} user={} password={}".format(
-            config.get("database", "host"),
-            config.get("database", "dbname"),
-            config.get("database", "user"),
-            config.get("database", "password"))
+    config = get_config()
+    dbstring = db_string(config)
 
     conn = psycopg2.connect(dbstring)
     try:
-        cur = conn.cursor()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("""select event_id,
+                              page_id,
                               name,
                               start_time
                          from events
@@ -34,8 +30,6 @@ if __name__ == "__main__":
     finally:
         conn.close()
 
-    print(events)
-
     t = j2.get_template("index.jade")
-    print(t.render(name="world"))
+    print(t.render(name="world", events=events))
 

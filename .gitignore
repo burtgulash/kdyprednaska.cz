@@ -1,2 +1,4 @@
 *.priv.ini
 *.swp
+*.pyc
+__pycache__
