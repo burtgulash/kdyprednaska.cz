@@ -115,7 +115,7 @@ if __name__ == "__main__":
                     page_id,
                     event["id"],
                     event["name"],
-                    event["description"],
+                    event.get("description"),
                     event["start_time"],
                     place_name,
                     loc_id
