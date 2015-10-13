@@ -17,12 +17,24 @@ html(lang="cz")
                     div.event
                         a(href="http://facebook.com/#{event.fb_id}")= event.event_name
                     div.details
-                        div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
+                        if event.end_time
+                            div.start-end(title="#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}")= event.start_time.strftime("%d.%m.%Y %H:%M")
+                        else
+                            div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
                         div.sep #
                         div.page
                             a(href="http://facebook.com/#{event.page_id}")= event.page_name
                         div.sep #
                         div.place= event.place_name
+                    div.details
+                        div.counts
+                            div.count(title="#{event.attending_count} se zúčastní")= event.attending_count
+                            div.count-sep / 
+                            div.count(title="#{event.maybe_count} možná")= event.maybe_count
+                            div.count-sep / 
+                            div.count(title="#{event.declined_count} zamítlo")= event.declined_count
+                            div.count-sep / 
+                            div.count(title="#{event.noreply_count} zatím neodpovědělo na účast")= event.noreply_count
 
         footer
             p burtgulash 2015

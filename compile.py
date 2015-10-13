@@ -22,13 +22,23 @@ if __name__ == "__main__":
         cur.execute("""select e.event_id,
                               e.name event_name,
                               e.start_time,
+                              e.end_time,
                               e.place_name,
+                              e.event_type,
                               e.fb_id,
+                              e.attending_count,
+                              e.declined_count,
+                              e.maybe_count,
+                              e.noreply_count,
                               p.name page_name,
                               p.page_id
                          from events e
                          join pages  p
                            on p.page_id = e.page_id
+
+                       -- Only public events!
+                        where e.event_type = 'public'
+
                        order by start_time desc""")
 
         events = list(cur.fetchall())

@@ -15,7 +15,7 @@ def fetch_data(page_id, token):
             fields=",".join([
                "id",
                "name",
-               "event_type",
+               "type",
                "start_time",
                "end_time",
                "place",

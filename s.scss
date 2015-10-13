@@ -45,8 +45,18 @@ body {
 }
 
 div.details {
+    padding-left: 1.25em;
     div {
         display: inline-block;
+    }
+    .start-end {
+        color: darken($text-color, 35%);
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .count:hover {
+        text-decoration: underline;
     }
 }
 
