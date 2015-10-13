@@ -62,6 +62,7 @@ div.details {
 
 ul.events {
     list-style-type: none;
+    padding: 0;
     li {
         padding: 1.25em 0;
     }
@@ -81,4 +82,22 @@ ul.events {
 footer {
     text-align: center;
     margin: 6em 0 9em 0;
+}
+
+.picture {
+    width: 55px;
+    margin-right: 25px;
+}
+
+.rest {
+    width: 720px - 55px - 25px;
+}
+
+.float-left {
+    float: left;
+    display: block;
+}
+
+.clear {
+    clear: left;
 }

@@ -7,7 +7,8 @@ create table pages (
     link text,
     about text,
     likes integer,
-    email text
+    email text,
+    picture text
 );
 
 drop table if exists locations cascade;

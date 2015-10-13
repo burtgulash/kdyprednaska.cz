@@ -21,6 +21,7 @@ def fetch_page(page_id, token):
             "name",
             "username",
             "website",
+            "picture",
         ])
     )
 
@@ -57,6 +58,7 @@ def store_page(cur, page_id, page):
         page["email"] = page["emails"][0]
 
     page["page_id"] = page_id
+    page["picture"] = page["picture"]["data"]["url"]
 
     fields = [
         "page_id",
@@ -67,14 +69,16 @@ def store_page(cur, page_id, page):
         "name",
         "username",
         "website",
+        "picture",
     ]
 
     exists = cur.fetchone()
     if not exists:
         cur.execute("""insert into pages ("""
                 + ",".join(fields) + """) 
-                       values (%s, %s, %s, %s,
-                               %s, %s, %s, %s)""",
+                       values (%s, %s, %s, 
+                               %s, %s, %s,
+                               %s, %s, %s)""",
             [page.get(field) for field in fields]
         )
         print("stored page, id=%s, name=%s" % (page["id"], page["username"]))
