@@ -45,7 +45,7 @@ body {
 }
 
 div.details {
-    padding-left: 1.25em;
+    padding-left: 25px;
     div {
         display: inline-block;
     }
@@ -87,6 +87,9 @@ footer {
 .picture {
     width: 55px;
     margin-right: 25px;
+    img {
+        border-radius: 50%;
+    }
 }
 
 .rest {

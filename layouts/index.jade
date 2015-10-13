@@ -15,10 +15,11 @@ html(lang="cz")
             for event in events
                 li
                     div.float-left.picture
-                        img(src="#{event.picture}",alt="#{event.username}")
+                        a(href="#{event.link}")
+                            img(src="#{event.picture}",alt="#{event.username}")
                     div.float-left.rest
                         div.event
-                            a(href="http://facebook.com/#{event.fb_id}")= event.event_name
+                            a(href="#{event.link}")= event.event_name
                         div.details
                             if event.end_time
                                 div.start-end(title="#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}")= event.start_time.strftime("%d.%m.%Y %H:%M")

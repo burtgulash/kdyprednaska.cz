@@ -33,7 +33,8 @@ if __name__ == "__main__":
                               p.name page_name,
                               p.username,
                               p.page_id,
-                              p.picture
+                              p.picture,
+                              p.link
                          from events e
                          join pages  p
                            on p.page_id = e.page_id
