@@ -1,9 +1,15 @@
-.PHONY: db fetch compile all
+.PHONY: db fetch compile all css clean
 
-all: compile
+all: fetch compile css
 db:
 	cat db.sql | psql -d prednavse -U io -W
 fetch:
 	./fetch.py
-compile: fetch
+compile: css clean
 	./compile.py > index.html
+css: clean
+	mkdir -p css
+	sassc s.scss css/style.css
+clean:
+	rm -r css
+	rm index.html

@@ -19,11 +19,15 @@ if __name__ == "__main__":
     conn = psycopg2.connect(dbstring)
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("""select event_id,
-                              page_id,
-                              name,
-                              start_time
-                         from events
+        cur.execute("""select e.event_id,
+                              e.name event_name,
+                              e.start_time,
+                              e.place_name,
+                              p.name page_name,
+                              p.page_id
+                         from events e
+                         join pages  p
+                           on p.page_id = e.page_id
                        order by start_time desc""")
 
         events = list(cur.fetchall())
@@ -31,5 +35,5 @@ if __name__ == "__main__":
         conn.close()
 
     t = j2.get_template("index.jade")
-    print(t.render(name="world", events=events))
+    print(t.render(events=events))
 

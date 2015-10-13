@@ -2,15 +2,18 @@
 html(lang="cz")
     head
         meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css", href="/css/style.css")
         title Přednášky Na VŠE
     body
         h1 Přednášky Na VŠE
-        ul
+        ul.events
             for event in events
                 li
-                    div
-                        span.page= event.page_id
-                        span.name= event.name
-                    div
+                    div.event= event.event_name
+                    div.details
                         div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
+                        div.sep #
+                        div.page
+                            a(href="http://facebook.com/#{event.page_id}") #{event.page_name}
+                        div.sep #
                         div.place= event.place_name

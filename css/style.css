@@ -1,0 +1,17 @@
+body {
+  color: #555; }
+
+div.details div {
+  display: inline-block; }
+
+ul.events li {
+  padding-bottom: 1em; }
+
+.event {
+  font-size: 1.25em;
+  line-height: 1.25; }
+
+.sep {
+  font-weight: bold;
+  color: black;
+  padding: 0 0.375em; }
