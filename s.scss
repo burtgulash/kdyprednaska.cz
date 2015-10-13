@@ -1,5 +1,47 @@
+$link-color: #167600;
+$text-color: #555;
+
+html {
+    color: $text-color;
+    line-height: 1.25;
+    // font-family: "Alegreya", "PT Serif", serif;
+    font-family: "PT Sans", sans-serif;
+}
+
+div.header {
+    text-align: center;
+    margin: 2em 0 3em 0;
+    h1 {
+        font-family: "Alegreya", serif;
+        font-size: 2.5em;
+        letter-spacing: -1px;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+    p {
+        margin: .5em 0;
+        padding: 0;
+    }
+}
+
+a {
+    color: $link-color;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:visited {
+        color: darken($link-color, 12%);
+    }
+}
+
 body {
-    color: #555;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 div.details {
@@ -9,18 +51,24 @@ div.details {
 }
 
 ul.events {
+    list-style-type: none;
     li {
-        padding-bottom: 1em;
+        padding: 1.25em 0;
     }
 }
 
 .event {
     font-size: 1.25em;
-    line-height: 1.25;
+    line-height: 1;
 }
 
 .sep {
     font-weight: bold;
     color: black;
     padding: 0 .375em;
+}
+
+footer {
+    text-align: center;
+    margin: 6em 0 9em 0;
 }

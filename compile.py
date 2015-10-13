@@ -23,6 +23,7 @@ if __name__ == "__main__":
                               e.name event_name,
                               e.start_time,
                               e.place_name,
+                              e.fb_id,
                               p.name page_name,
                               p.page_id
                          from events e

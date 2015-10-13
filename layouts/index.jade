@@ -3,17 +3,26 @@ html(lang="cz")
     head
         meta(charset="utf-8")
         link(rel="stylesheet", type="text/css", href="/css/style.css")
-        title Přednášky Na VŠE
+        link(href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,latin-ext", rel="stylesheet", type="text/css")
+        link(href="https://fonts.googleapis.com/css?family=Alegreya:400,700&subset=latin,latin-ext", rel="stylesheet", type="text/css")
+        title Přednášky na VŠE
     body
-        h1 Přednášky Na VŠE
+        div.header
+            h1 Přednášky na VŠE
+            p veřejně přístupné přednášky
+
         ul.events
             for event in events
                 li
-                    div.event= event.event_name
+                    div.event
+                        a(href="http://facebook.com/#{event.fb_id}")= event.event_name
                     div.details
                         div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
                         div.sep #
                         div.page
-                            a(href="http://facebook.com/#{event.page_id}") #{event.page_name}
+                            a(href="http://facebook.com/#{event.page_id}")= event.page_name
                         div.sep #
                         div.place= event.place_name
+
+        footer
+            p burtgulash 2015
