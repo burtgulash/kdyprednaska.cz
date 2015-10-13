@@ -1,6 +1,7 @@
 import configparser
 import glob
 import json
+import sys
 
 def ERROR(msg, *a, **k):
     print(msg, *a, file=sys.stderr, **k)

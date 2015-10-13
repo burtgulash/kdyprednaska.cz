@@ -23,7 +23,13 @@ create table events (
     page_id text references pages(page_id),
     name text,
     description text,
+    event_type text,
     start_time timestamp with time zone,
+    end_time timestamp with time zone,
     place_name text,
-    location_id integer references locations(location_id)
+    location_id integer references locations(location_id),
+    attending_count integer,
+    maybe_count integer,
+    declined_count integer,
+    noreply_count integer
 );

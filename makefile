@@ -1,6 +1,6 @@
 .PHONY: db fetch compile all css clean
 
-all: fetch compile css
+all: compile
 db:
 	cat db.sql | psql -d prednavse -U io -W
 fetch:

@@ -23,5 +23,10 @@
         "name": "HR klub VŠE",
         "page_id": "HRklubVSE",
         "web": "http://hrklubvse.cz"
+    },
+    {
+        "name": "xPORT",
+        "page_id": "xportprague",
+        "web": "http://xport.vse.cz/"
     }
 ]

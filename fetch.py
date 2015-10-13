@@ -8,10 +8,22 @@ from common import get_config, get_pages, db_string, ERROR
 
 
 def fetch_data(page_id, token):
-    url = "https://graph.facebook.com/{version}/{page_id}/events?access_token={token}".format(
+    url = "https://graph.facebook.com/{version}/{page_id}/events?access_token={token}&fields={fields}".format(
             version="v2.5",
             page_id=page_id,
             token=token,
+            fields=",".join([
+               "id",
+               "name",
+               "event_type",
+               "start_time",
+               "end_time",
+               "place",
+               "attending_count",
+               "maybe_count",
+               "declined_count",
+               "noreply_count",
+            ])
     )
 
     return requests.get(url)
@@ -58,28 +70,40 @@ def store_location(cur, country, city, street, lat, lon, zip):
 
         location_id = cur.fetchone()[0]
 
-        print("stored location, id=%s, country=%s, city=%s, street=%s, lat=%s, lon=%s, zip=%s" % (
-            location_id, country, city, street, lat, lon, zip))
+        print("stored location, id=%s, country=%s, city=%s, street=%s" % (location_id, country, city, street))
 
     return location_id
 
-def store_event(cur, page_id, fb_id, name, description, start_time, place_name, loc_id):
-    cur.execute("select exists (select 1 from events where fb_id = %s)", (fb_id, ))
+def store_event(cur, event):
+    cur.execute("select exists (select 1 from events where fb_id = %s)", (event["fb_id"], ))
     exists = cur.fetchone()[0]
 
+    fields = [
+        "page_id",
+        "fb_id",
+        "name",
+        "start_time",
+        "end_time",
+        "event_type",
+        "place_name",
+        "location_id",
+        "attending_count",
+        "maybe_count",
+        "declined_count",
+        "noreply_count",
+    ]
+
     if not exists:
-        cur.execute("""insert into events (page_id,
-                                           fb_id,
-                                           name,
-                                           description,
-                                           start_time,
-                                           place_name,
-                                           location_id)
-                     values (%s, %s, %s, %s, %s, %s, %s)""", (
-            page_id, fb_id, name, description, start_time, place_name, loc_id
+        cur.execute("""insert into events ("""
+                      + ",".join(fields) + """)
+                     values (%s, %s, %s, %s, 
+                             %s, %s, %s, %s,
+                             %s, %s, %s, %s)""",
+            [event.get(field) for field in fields]
+        )
+        print("stored event, page=%s, fb_id=%s" % (
+            event["page_id"], event["fb_id"]
         ))
-        print("stored event, page=%s, fb_id=%s, name=%s, place=%s, start=%s" % (
-            page_id, fb_id, name, place_name, start_time))
 
 
 if __name__ == "__main__":
@@ -115,18 +139,21 @@ if __name__ == "__main__":
 
                     if "location" in event["place"]:
                         loc = event["place"]["location"]
-                        loc_id = store_location(cur, loc.get("country"), loc.get("city"), loc.get("street"),
-                                                     loc.get("latitude"), loc.get("longitude"), loc.get("zip"))
+                        loc_id = store_location(cur, 
+                                loc.get("country"),
+                                loc.get("city"),
+                                loc.get("street"),
+                                loc.get("latitude"),
+                                loc.get("longitude"),
+                                loc.get("zip"))
 
-                store_event(cur,
-                    page_id,
-                    event["id"],
-                    event["name"],
-                    event.get("description"),
-                    event["start_time"],
-                    place_name,
-                    loc_id
-                )
+                event["page_id"] = page_id
+                event["fb_id"] = event["id"]
+                event["place_name"] = place_name
+                event["location_id"] = loc_id
+                event["event_type"] = event.get("type")
+
+                store_event(cur, event)
             except psycopg2.Error as err:
                 ERROR("err storing data: %s" % str(err))
                 conn.rollback()
