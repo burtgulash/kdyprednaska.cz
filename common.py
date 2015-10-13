@@ -1,5 +1,6 @@
 import configparser
 import glob
+import json
 
 def ERROR(msg, *a, **k):
     print(msg, *a, file=sys.stderr, **k)
@@ -9,6 +10,9 @@ def get_config(main="config.ini", priv=glob.glob("*.priv.ini")):
     config.readfp(open(main, "r"))
     config.read(priv)
     return config
+
+def get_pages(pages_f="pages.json"):
+    return json.load(open(pages_f, "r"))
 
 def db_string(config):
     return "host={} dbname={} user={} password={}".format(

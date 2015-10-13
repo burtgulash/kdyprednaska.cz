@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Klub investorů",
+        "page_id": "klubinvestoru",
+        "web": "http://www.klubinvestoru.com"
+    },
+    {
+        "name": "Business IT club",
+        "page_id": "bizitcz",
+        "web": "http://bizit.cz"
+    },
+    {
+        "name": "CLICK IT",
+        "page_id": "clickitCZ",
+        "web": "http://click-it.cz"
+    },
+    {
+        "name": "SKOK",
+        "page_id": "skok.vse",
+        "web": "http://skok.vse.cz"
+    },
+    {
+        "name": "HR klub VŠE",
+        "page_id": "HRklubVSE",
+        "web": "http://hrklubvse.cz"
+    }
+]

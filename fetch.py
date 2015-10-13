@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 
-import csv
 import psycopg2
 import requests
 import sys
 
-from common import get_config, db_string, ERROR
+from common import get_config, get_pages, db_string, ERROR
 
 
 def fetch_data(page_id, token):
@@ -16,6 +15,22 @@ def fetch_data(page_id, token):
     )
 
     return requests.get(url)
+
+def store_page(cur, id, name, web):
+    cur.execute("""select page_id, name, web
+                     from pages
+                    where page_id                 = %s
+                      and name is not distinct from %s
+                      and web  is not distinct from %s""", 
+        (id, name, web)
+    )
+    exists = cur.fetchone()
+    if not exists:
+        cur.execute("""insert into pages (page_id, name, web)
+                            values (%s, %s, %s)""",
+            (id, name, web)
+        )
+                   
 
 def store_location(cur, country, city, street, lat, lon, zip):
     cur.execute("""select location_id
@@ -72,17 +87,19 @@ if __name__ == "__main__":
     dbstring = db_string(config)
 
     token = config.get("facebook", "token")
-    pages = config.get("facebook", "pages")
-
-    parser = csv.reader([pages])
-    pages = next(parser)
+    pages_f = config.get("facebook", "pages")
+    pages = get_pages(pages_f)
 
     conn = psycopg2.connect(dbstring)
     cur = conn.cursor()
 
     print("processing pages", pages)
 
-    for page_id in pages:
+    for page in pages:
+        page_id = page["page_id"]
+
+        store_page(cur, page_id, page.get("name"), page.get("web"))
+
         r = fetch_data(page_id, token)
         if r.status_code != 200:
             ERROR("could not retrieve events, page=%s, err=%s" % (page_id, r.status_code))
