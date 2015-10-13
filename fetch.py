@@ -7,41 +7,77 @@ import sys
 from common import get_config, get_pages, db_string, ERROR
 
 
-def fetch_data(page_id, token):
-    url = "https://graph.facebook.com/{version}/{page_id}/events?access_token={token}&fields={fields}".format(
-            version="v2.5",
-            page_id=page_id,
-            token=token,
-            fields=",".join([
-               "id",
-               "name",
-               "type",
-               "start_time",
-               "end_time",
-               "place",
-               "attending_count",
-               "maybe_count",
-               "declined_count",
-               "noreply_count",
-            ])
+def fetch_page(page_id, token):
+    url = "https://graph.facebook.com/{version}/{page_id}?fields={fields}&access_token={token}".format(
+        version="v2.5",
+        page_id=page_id,
+        token=token,
+        fields = ",".join([
+            "about",
+            "emails",
+            "link",
+            "location",
+            "likes",
+            "name",
+            "username",
+            "website",
+        ])
     )
 
     return requests.get(url)
 
-def store_page(cur, id, name, web):
-    cur.execute("""select page_id, name, web
-                     from pages
-                    where page_id                 = %s
-                      and name is not distinct from %s
-                      and web  is not distinct from %s""", 
-        (id, name, web)
+def fetch_events(page_id, token):
+    url = "https://graph.facebook.com/{version}/{page_id}/events?access_token={token}&fields={fields}".format(
+        version="v2.5",
+        page_id=page_id,
+        token=token,
+        fields=",".join([
+           "id",
+           "name",
+           "type",
+           "start_time",
+           "end_time",
+           "place",
+           "attending_count",
+           "maybe_count",
+           "declined_count",
+           "noreply_count",
+        ])
     )
+
+    return requests.get(url)
+
+def store_page(cur, page_id, page):
+    cur.execute("select page_id from pages where page_id = %s",
+        (page["id"], )
+    )
+
+    page["email"] = None
+    if "emails" in page and page["emails"]:
+        page["email"] = page["emails"][0]
+
+    page["page_id"] = page_id
+
+    fields = [
+        "page_id",
+        "about",
+        "email",
+        "link",
+        "likes",
+        "name",
+        "username",
+        "website",
+    ]
+
     exists = cur.fetchone()
     if not exists:
-        cur.execute("""insert into pages (page_id, name, web)
-                            values (%s, %s, %s)""",
-            (id, name, web)
+        cur.execute("""insert into pages ("""
+                + ",".join(fields) + """) 
+                       values (%s, %s, %s, %s,
+                               %s, %s, %s, %s)""",
+            [page.get(field) for field in fields]
         )
+        print("stored page, id=%s, name=%s" % (page["id"], page["username"]))
                    
 
 def store_location(cur, country, city, street, lat, lon, zip):
@@ -119,12 +155,24 @@ if __name__ == "__main__":
 
     print("processing pages", pages)
 
-    for page in pages:
-        page_id = page["page_id"]
+    for page_id in pages:
+        r = fetch_page(page_id, token)
+        if r.status_code != 200:
+            ERROR("could not retrieve page, page=%s, err=%s" % (page_id, r.status_code))
+            continue
 
-        store_page(cur, page_id, page.get("name"), page.get("web"))
+        page = r.json()
+        try:
+            store_page(cur, page_id, page)
+        except psycopg2.Error as err:
+            conn.rollback()
+            ERROR("error storing page: %s" % str(err))
+            continue
+        else:
+            conn.commit()
 
-        r = fetch_data(page_id, token)
+
+        r = fetch_events(page_id, token)
         if r.status_code != 200:
             ERROR("could not retrieve events, page=%s, err=%s" % (page_id, r.status_code))
             continue
@@ -155,8 +203,9 @@ if __name__ == "__main__":
 
                 store_event(cur, event)
             except psycopg2.Error as err:
-                ERROR("err storing data: %s" % str(err))
                 conn.rollback()
+                ERROR("error storing events: %s" % str(err))
+                continue
             else:
                 conn.commit()
 

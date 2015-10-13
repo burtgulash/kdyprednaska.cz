@@ -2,7 +2,12 @@ drop table if exists pages cascade;
 create table pages (
     page_id text primary key,
     name text,
-    web text
+    username text,
+    website text,
+    link text,
+    about text,
+    likes integer,
+    email text
 );
 
 drop table if exists locations cascade;

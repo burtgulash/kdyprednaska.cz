@@ -31,6 +31,7 @@ if __name__ == "__main__":
                               e.maybe_count,
                               e.noreply_count,
                               p.name page_name,
+                              p.username,
                               p.page_id
                          from events e
                          join pages  p
