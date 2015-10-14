@@ -2,6 +2,16 @@
 
 extends ./base.jade
 
+block head
+    meta(http-equiv="refresh", content="5")
+
+block navigation
+    ul
+        li 
+            a(href="kluby") přehled klubů
+        li 
+            a(href="kontakt") kontakt
+
 block content
     for event in events
         li
