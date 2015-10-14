@@ -29,11 +29,11 @@ if __name__ == "__main__":
                               e.declined_count,
                               e.maybe_count,
                               e.noreply_count,
+       format('https://facebook.com/events/%s', e.fb_id) link,
                               p.name page_name,
                               p.username,
                               p.page_id,
-                              p.picture,
-                              p.link
+                              p.picture
                          from events e
                          join pages  p
                            on p.page_id = e.page_id
