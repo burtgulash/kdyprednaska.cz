@@ -2,7 +2,7 @@
 
 all: compile-events compile-pages
 db:
-	cat db.sql | psql -d prednavse -U io -W
+	cat db.sql | psql -d kdyprednaska -U io -W
 fetch:
 	./fetch.py
 compile-events: css clean
