@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import configparser
 import jinja2
 import psycopg2
 import psycopg2.extras
@@ -48,6 +47,6 @@ if __name__ == "__main__":
     finally:
         conn.close()
 
-    t = j2.get_template("index.jade")
+    t = j2.get_template("events.jade")
     print(t.render(events=events))
 

@@ -41,13 +41,13 @@ div.details {
   div.details .count:hover {
     text-decoration: underline; }
 
-ul.events {
+ul.data {
   list-style-type: none;
   padding: 0; }
-  ul.events li {
+  ul.data li {
     padding: 1.25em 0; }
 
-.event {
+.list-item-title {
   font-size: 1.25em;
   line-height: 1; }
 

@@ -1,0 +1,49 @@
+//- pages.jade
+
+extends ./base.jade
+
+block head
+    meta(http-equiv="refresh", content="5")
+
+block content
+    for page in pages
+        li
+            div.float-left.picture
+                a(href="#{page.link}")
+                    img(src="#{page.picture}",alt="#{page.username}")
+            div.float-left.rest
+                div.list-item-title
+                    a(href="#{page.link}")= page.name
+                div.details
+                    if page.username
+                        a(href="#{page.link}")= page.username
+
+                    if (page.website | is_url)
+                        div.sep #
+                        div.website
+                            a(href="#{page.website}")= page.website
+                    if page.email
+                        div.sep #
+                        div.email= page.email
+                div.details
+                    div
+                        if page.likes >= 5
+                            #{page.likes} fb liků
+                        elif page.likes >= 2
+                            #{page.likes} fb liky
+                        elif page.likes == 1
+                            | 1 fb like
+                        else
+                            | žádný fb like
+                    div.sep #
+                    div
+                        if page.event_count >= 5
+                            #{page.event_count} přednášek
+                        elif page.event_count >= 2
+                            #{page.event_count} přednášky
+                        elif page.event_count == 1
+                            | 1 přednáška
+                        else
+                            | žádná přednáška
+
+            div.clear

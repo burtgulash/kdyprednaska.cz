@@ -1,16 +1,9 @@
-//- index.jade
+//- events.jade
 
 extends ./base.jade
 
 block head
     meta(http-equiv="refresh", content="5")
-
-block navigation
-    ul
-        li 
-            a(href="kluby") přehled klubů
-        li 
-            a(href="kontakt") kontakt
 
 block content
     for event in events
@@ -19,7 +12,7 @@ block content
                 a(href="#{event.link}")
                     img(src="#{event.picture}",alt="#{event.username}")
             div.float-left.rest
-                div.event
+                div.list-item-title
                     a(href="#{event.link}")= event.event_name
                 div.details
                     if event.end_time
