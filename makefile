@@ -6,12 +6,12 @@ db:
 fetch:
 	./fetch.py
 compile-events: css clean
-	./compile.py > index.html
+	./compile.py > dist/index.html
 compile-pages:  css clean
-	./compile_pages.py > kluby.html
+	./compile_pages.py > dist/kluby.html
 css: clean
-	mkdir -p css
-	sassc s.scss css/style.css
+	mkdir -p dist/css
+	sassc s.scss dist/css/style.css
 clean:
-	rm -r css
-	rm index.html
+	if [ -d dist ]; then rm -r dist; fi
+	mkdir -p dist
