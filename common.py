@@ -11,7 +11,7 @@ def get_config(main="config.ini", priv=glob.glob("*.priv.ini")):
     config.read(priv)
     return config
 
-def get_pages(pages_f="pages.json"):
+def get_pages(pages_f="pages.txt"):
     with open(pages_f, "r") as f:
         return [page.strip() for page in f.readlines()]
 

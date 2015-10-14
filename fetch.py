@@ -50,7 +50,7 @@ def fetch_events(page_id, token):
 
 def store_page(cur, page_id, page):
     cur.execute("select page_id from pages where page_id = %s",
-        (page["id"], )
+        (page_id, )
     )
 
     page["email"] = None
@@ -81,7 +81,7 @@ def store_page(cur, page_id, page):
                                %s, %s, %s)""",
             [page.get(field) for field in fields]
         )
-        print("stored page, id=%s, name=%s" % (page["id"], page["username"]))
+        print("stored page, id=%s" % (page_id, ))
                    
 
 def store_location(cur, country, city, street, lat, lon, zip):
