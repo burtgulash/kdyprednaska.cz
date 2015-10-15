@@ -58,7 +58,7 @@ if __name__ == "__main__":
     t = j2.get_template("events.jade")
     print(t.render(
         events=events,
-        now=datetime.datetime.utcnow().replace(tzinfo=pytz.UTC),
+        now=datetime.datetime.now(),
         today=today,
         tomorrow=today + datetime.timedelta(days=1)
     ))
