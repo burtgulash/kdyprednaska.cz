@@ -1,4 +1,4 @@
-.PHONY: db fetch compile all css clean 
+.PHONY: db fetch compile all css clean
 
 all: css compile-events compile-pages
 db:

@@ -5,11 +5,9 @@ import psycopg2
 import requests
 import sys
 
-from common import get_config, get_pages, db_string, ERROR
+from common import *
 
-log = logging.getLogger("kdyprednaska.fetch")
-log.setLevel(logging.INFO)
-logging.basicConfig(format="%(levelname)s %(message)s")
+log = get_logger()
 
 def fetch_page(page_id, token):
     url = "https://graph.facebook.com/{version}/{page_id}?fields={fields}&access_token={token}".format(
@@ -154,14 +152,18 @@ def store_event(cur, event):
 
 
 if __name__ == "__main__":
-    config = get_config()
+    args = get_args()
+    config = get_config(args.config)
     dbstring = db_string(config)
 
     token = config.get("facebook", "token")
     pages_f = config.get("facebook", "pages")
     pages = get_pages(pages_f)
 
-    conn = psycopg2.connect(dbstring)
+    conn = db_connect(dbstring)
+    if not conn:
+        sys.exit(1)
+
     cur = conn.cursor()
 
     log.info("processing pages, pages=%s", pages)
@@ -169,7 +171,7 @@ if __name__ == "__main__":
     for page_id in pages:
         r = fetch_page(page_id, token)
         if r.status_code != 200:
-            ERROR("could not retrieve page, page=%s, err=%s" % (page_id, r.status_code))
+            log.error("could not retrieve page, page=%s, err=%s", page_id, r.status_code)
             continue
 
         page = r.json()
@@ -177,7 +179,7 @@ if __name__ == "__main__":
             store_page(cur, page_id, page)
         except psycopg2.Error as err:
             conn.rollback()
-            ERROR("error storing page: %s" % str(err))
+            log.error("error storing page: %s", err)
             continue
         else:
             conn.commit()
@@ -185,7 +187,7 @@ if __name__ == "__main__":
 
         r = fetch_events(page_id, token)
         if r.status_code != 200:
-            ERROR("could not retrieve events, page=%s, err=%s" % (page_id, r.status_code))
+            log.error("could not retrieve events, page=%s, err=%s", page_id, r.status_code)
             continue
 
         for event in r.json()["data"]:
@@ -215,7 +217,7 @@ if __name__ == "__main__":
                 store_event(cur, event)
             except psycopg2.Error as err:
                 conn.rollback()
-                ERROR("error storing events: %s" % str(err))
+                log.error("error storing events: %s", err)
                 continue
             else:
                 conn.commit()

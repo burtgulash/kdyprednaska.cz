@@ -3,8 +3,9 @@
 import jinja2
 import psycopg2
 import psycopg2.extras
+import sys
 
-from common import get_config, db_string
+from common import *
 
 j2 = jinja2.Environment(
     loader=jinja2.FileSystemLoader("layouts"),
@@ -14,10 +15,14 @@ j2 = jinja2.Environment(
 j2.filters["is_url"] = lambda text: text.startswith("http") if text else False
 
 if __name__ == "__main__":
-    config = get_config()
+    args = get_args()
+    config = get_config(args.config)
     dbstring = db_string(config)
 
-    conn = psycopg2.connect(dbstring)
+    conn = db_connect(dbstring)
+    if not conn:
+        sys.exit(1)
+
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("""select p.*,
