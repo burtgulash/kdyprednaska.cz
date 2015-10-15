@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
+import datetime
 import jinja2
 import psycopg2
 import psycopg2.extras
+import pytz
 
 from common import get_config, db_string
 
@@ -47,6 +49,11 @@ if __name__ == "__main__":
     finally:
         conn.close()
 
+    today = datetime.datetime.today().replace(tzinfo=pytz.UTC)
     t = j2.get_template("events.jade")
-    print(t.render(events=events))
+    print(t.render(
+        events=events,
+        today=today,
+        tomorrow=today + datetime.timedelta(days=1)
+    ))
 

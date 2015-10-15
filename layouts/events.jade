@@ -3,31 +3,48 @@
 extends ./base.jade
 
 block content
-    for event in events
-        li
-            div.float-left.picture
-                a(href="#{event.link}")
-                    img(src="#{event.picture}",alt="#{event.username}")
-            div.float-left.rest
-                div.list-item-title
-                    a(href="#{event.link}")= event.event_name
-                div.details
-                    if event.end_time
-                        div.start-end(title="#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}")= event.start_time.strftime("%d.%m.%Y %H:%M")
-                    else
-                        div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
-                    div.sep #
-                    div.page
-                        a(href="http://facebook.com/#{event.page_id}")= event.page_name
-                    div.sep #
-                    div.place= event.place_name
-                div.details
-                    div.counts
-                        div.count(title="#{event.attending_count} se zúčastní")= event.attending_count
-                        div.count-sep / 
-                        div.count(title="#{event.maybe_count} možná")= event.maybe_count
-                        div.count-sep / 
-                        div.count(title="#{event.declined_count} zamítnutí")= event.declined_count
-                        div.count-sep / 
-                        div.count(title="#{event.noreply_count} zatím neodpovědělo na účast")= event.noreply_count
-            div.clear
+    div.today
+        h3 dnes - #{today.strftime("%d.%m.%Y")}
+        ul.data
+            for event in events
+                if today <= event.start_time < tomorrow
+                    li
+                        +event_li(event)
+
+        div.now-line
+            hr
+
+    ul.data
+        for event in events
+            li
+                +event_li(event)
+
+
+
+mixin event_li(event)
+    div.float-left.picture
+        a(href="#{event.link}")
+            img(src="#{event.picture}",alt="#{event.username}")
+    div.float-left.rest
+        div.list-item-title
+            a(href="#{event.link}")= event.event_name
+        div.details
+            if event.end_time
+                div.start-end(title="#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}")= event.start_time.strftime("%d.%m.%Y %H:%M")
+            else
+                div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
+            div.sep #
+            div.page
+                a(href="http://facebook.com/#{event.page_id}")= event.page_name
+            div.sep #
+            div.place= event.place_name
+        div.details
+            div.counts
+                div.count(title="#{event.attending_count} se zúčastní")= event.attending_count
+                div.count-sep /
+                div.count(title="#{event.maybe_count} možná")= event.maybe_count
+                div.count-sep /
+                div.count(title="#{event.declined_count} zamítnutí")= event.declined_count
+                div.count-sep /
+                div.count(title="#{event.noreply_count} zatím neodpovědělo na účast")= event.noreply_count
+    div.clear

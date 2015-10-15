@@ -18,6 +18,7 @@ div.header {
         font-weight: normal;
         margin: 0;
         padding: 0;
+        color: #222;
     }
     p {
         margin: .5em 0;
@@ -116,4 +117,8 @@ nav {
             margin: 0 1em;
         }
     }
+}
+
+.today {
+    margin-bottom: 2em;
 }
