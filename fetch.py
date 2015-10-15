@@ -139,16 +139,22 @@ def store_event(cur, event):
     ]
 
     if not exists:
-        cur.execute("""insert into events ("""
-                      + ",".join(fields) + """)
-                     values (%s, %s, %s, %s,
-                             %s, %s, %s, %s,
-                             %s, %s, %s, %s)""",
-            [event.get(field) for field in fields]
-        )
-        log.info("stored event, page=%s, fb_id=%s",
-            event["page_id"], event["fb_id"]
-        )
+        cur.execute("insert into events (page_id, fb_id) values (%s, %s)",
+                [page_id, event["fb_id"]])
+
+    set_str = ", ".join((field + " = %s" for field in fields))
+
+    cur.execute("update events set " + set_str +
+                " where page_id = %s and fb_id = %s", [
+                    event.get(field)
+                    for field
+                    in fields]
+                + [page_id, event["fb_id"]]
+    )
+
+    log.info("updated event, page=%s, fb_id=%s",
+        event["page_id"], event["fb_id"]
+    )
 
 
 if __name__ == "__main__":

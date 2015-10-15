@@ -49,7 +49,8 @@ if __name__ == "__main__":
                        -- Only public events!
                         where e.event_type = 'public'
 
-                       order by start_time desc""")
+                       order by start_time desc,
+                       e.attending_count desc""")
 
         events = list(cur.fetchall())
     finally:
