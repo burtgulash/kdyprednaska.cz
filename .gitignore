@@ -1,4 +1,4 @@
-*.priv.ini
+config.ini
 *.swp
 *.pyc
 __pycache__
