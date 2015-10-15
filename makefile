@@ -1,15 +1,15 @@
 .PHONY: db fetch compile all css clean 
 
-all: compile-events compile-pages
+all: css compile-events compile-pages
 db:
 	cat db.sql | psql -d kdyprednaska -U io -W
 fetch:
 	./fetch.py
-compile-events: css clean
+compile-events:
 	./compile.py > dist/index.html
-compile-pages:  css clean
+compile-pages:
 	./compile_pages.py > dist/kluby.html
-css: clean
+css:
 	mkdir -p dist/css
 	sassc s.scss dist/css/style.css
 clean:

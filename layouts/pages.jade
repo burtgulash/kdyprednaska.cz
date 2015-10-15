@@ -2,6 +2,10 @@
 
 extends ./base.jade
 
+mixin events_link(page, count_text)
+    a(href="#{page.link}/events")= count_text
+
+
 block content
     for page in pages
         li
@@ -35,12 +39,12 @@ block content
                     div.sep #
                     div
                         if page.event_count >= 5
-                            #{page.event_count} přednášek
+                            +events_link(page, page.event_count|string + " přednášek")
                         elif page.event_count >= 2
-                            #{page.event_count} přednášky
+                            +events_link(page, page.event_count|string + " přednášky")
                         elif page.event_count == 1
-                            | 1 přednáška
+                            +events_link(page, "1 přednáška")
                         else
-                            | žádná přednáška
+                            +events_link(page, "žádná přednáška")
 
             div.clear
