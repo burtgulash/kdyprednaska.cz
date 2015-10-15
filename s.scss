@@ -46,7 +46,6 @@ body {
 }
 
 div.details {
-    padding-left: 25px;
     div {
         display: inline-block;
     }
@@ -94,7 +93,7 @@ footer {
 }
 
 .rest {
-    width: 720px - 55px - 25px;
+    max-width: 720px - 55px - 25px;
 }
 
 .float-left {
