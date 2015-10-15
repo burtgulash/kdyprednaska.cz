@@ -11,13 +11,12 @@ block content
                     li
                         +event_li(event)
 
-        div.now-line
-            hr
-
-    ul.data
-        for event in events
-            li
-                +event_li(event)
+    div
+        h3 všechny přednášky
+        ul.data
+            for event in events
+                li
+                    +event_li(event)
 
 
 

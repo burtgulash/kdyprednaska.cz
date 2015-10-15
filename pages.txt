@@ -13,3 +13,5 @@ kc.vse
 KlubPratelUcetnictvi
 politologove
 CestaUspesnych
+klubmarketingu
+SKPR.Praha

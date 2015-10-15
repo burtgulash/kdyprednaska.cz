@@ -25,11 +25,11 @@ html(lang="cz")
                         a(href="/") přednášky
                     li
                         a(href="kluby.html") přehled klubů
-                    li
-                        a(href="kontakt.html") kontakt
 
         block content
 
         footer
             block footer
+                if now
+                    p naposled aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}
                 p burtgulash 2015
