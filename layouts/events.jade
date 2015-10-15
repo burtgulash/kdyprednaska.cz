@@ -35,8 +35,9 @@ mixin event_li(event)
             div.sep #
             div.page
                 a(href="http://facebook.com/#{event.page_id}")= event.page_name
-            div.sep #
-            div.place= event.place_name
+            if event.place
+                div.sep #
+                div.place= event.place_name
         div.details
             div.counts
                 div.count(title="#{event.attending_count} se zúčastní")= event.attending_count

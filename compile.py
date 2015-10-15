@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-import datetime
+from datetime import datetime
+from datetime import timedelta
 import jinja2
 import psycopg2
 import psycopg2.extras
@@ -54,12 +55,15 @@ if __name__ == "__main__":
     finally:
         conn.close()
 
-    today = datetime.datetime.today().replace(tzinfo=pytz.UTC)
+    today = datetime.today()
+    today = datetime.combine(today, datetime.min.time())
+    today = today.replace(tzinfo=pytz.UTC)
+
     t = j2.get_template("events.jade")
     print(t.render(
         events=events,
-        now=datetime.datetime.now(),
+        now=datetime.now(),
         today=today,
-        tomorrow=today + datetime.timedelta(days=1)
+        tomorrow=today + timedelta(days=1)
     ))
 
