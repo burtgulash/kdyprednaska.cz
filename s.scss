@@ -1,5 +1,6 @@
 $link-color: #167600;
 $text-color: #555;
+$heading-color: #222;
 
 html {
     color: $text-color;
@@ -18,12 +19,16 @@ div.header {
         font-weight: normal;
         margin: 0;
         padding: 0;
-        color: #222;
+        color: $heading-color;
     }
     p {
         margin: .5em 0;
         padding: 0;
     }
+}
+
+h3 {
+    color: $heading-color;
 }
 
 a {
