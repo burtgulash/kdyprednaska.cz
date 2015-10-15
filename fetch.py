@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 
+import logging
 import psycopg2
 import requests
 import sys
 
 from common import get_config, get_pages, db_string, ERROR
 
+log = logging.getLogger("kdyprednaska.fetch")
+log.setLevel(logging.INFO)
+logging.basicConfig(format="%(levelname)s %(message)s")
 
 def fetch_page(page_id, token):
     url = "https://graph.facebook.com/{version}/{page_id}?fields={fields}&access_token={token}".format(
@@ -24,6 +28,9 @@ def fetch_page(page_id, token):
             "picture",
         ])
     )
+
+    log.info("fetching page, page=%s", page_id)
+    log.debug("fetching page, page=%s, url=%s", page_id, url)
 
     return requests.get(url)
 
@@ -75,14 +82,14 @@ def store_page(cur, page_id, page):
     exists = cur.fetchone()
     if not exists:
         cur.execute("""insert into pages ("""
-                + ",".join(fields) + """) 
-                       values (%s, %s, %s, 
+                + ",".join(fields) + """)
+                       values (%s, %s, %s,
                                %s, %s, %s,
                                %s, %s, %s)""",
             [page.get(field) for field in fields]
         )
-        print("stored page, id=%s" % (page_id, ))
-                   
+        log.info("stored page, id=%s", page_id)
+
 
 def store_location(cur, country, city, street, lat, lon, zip):
     cur.execute("""select location_id
@@ -110,7 +117,7 @@ def store_location(cur, country, city, street, lat, lon, zip):
 
         location_id = cur.fetchone()[0]
 
-        print("stored location, id=%s, country=%s, city=%s, street=%s" % (location_id, country, city, street))
+        log.info("stored location, id=%s, country=%s, city=%s, street=%s", location_id, country, city, street)
 
     return location_id
 
@@ -136,14 +143,14 @@ def store_event(cur, event):
     if not exists:
         cur.execute("""insert into events ("""
                       + ",".join(fields) + """)
-                     values (%s, %s, %s, %s, 
+                     values (%s, %s, %s, %s,
                              %s, %s, %s, %s,
                              %s, %s, %s, %s)""",
             [event.get(field) for field in fields]
         )
-        print("stored event, page=%s, fb_id=%s" % (
+        log.info("stored event, page=%s, fb_id=%s",
             event["page_id"], event["fb_id"]
-        ))
+        )
 
 
 if __name__ == "__main__":
@@ -157,7 +164,7 @@ if __name__ == "__main__":
     conn = psycopg2.connect(dbstring)
     cur = conn.cursor()
 
-    print("processing pages", pages)
+    log.info("processing pages, pages=%s", pages)
 
     for page_id in pages:
         r = fetch_page(page_id, token)
@@ -191,7 +198,7 @@ if __name__ == "__main__":
 
                     if "location" in event["place"]:
                         loc = event["place"]["location"]
-                        loc_id = store_location(cur, 
+                        loc_id = store_location(cur,
                                 loc.get("country"),
                                 loc.get("city"),
                                 loc.get("street"),
