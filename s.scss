@@ -2,11 +2,29 @@ $link-color: #167600;
 $text-color: #555;
 $heading-color: #222;
 
+@media screen and (max-width: 640px) {
+    div.sep {
+        display: none !important;
+    }
+    div.details > div {
+        width: 100%;
+    }
+    .float-left {
+        width: 100%;
+    }
+}
+
+
 html {
     color: $text-color;
-    line-height: 1.25;
+    line-height: 1.125;
     // font-family: "Alegreya", "PT Serif", serif;
     font-family: "PT Sans", sans-serif;
+}
+
+div {
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 div.header {
@@ -51,6 +69,7 @@ body {
 }
 
 div.details {
+    padding-left: 1.5em;
     div {
         display: inline-block;
     }
@@ -75,10 +94,11 @@ ul.data {
 
 .list-item-title {
     font-size: 1.25em;
-    line-height: 1;
+    line-height: 1.125;
+    margin-bottom: .25em;
 }
 
-.sep {
+div.sep {
     font-weight: bold;
     color: black;
     padding: 0 .375em;
