@@ -21,7 +21,8 @@ mixin page_li(page)
             a(href="#{page.link}")= page.name
         div.details
             if page.username
-                a(href="#{page.link}")= page.username
+                div
+                    a(href="#{page.link}")= page.username
 
             if (page.website | is_url)
                 div.sep #
