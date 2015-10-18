@@ -16,16 +16,6 @@ j2 = jinja2.Environment(
     extensions=["pyjade.ext.jinja.PyJadeExtension"]
 )
 
-def is_url(url):
-    if url:
-        if url.startswith("<<"):
-            return False
-        return True
-    return False
-
-j2.filters["is_url"] = is_url
-
-
 
 if __name__ == "__main__":
     args = get_args()
@@ -80,6 +70,13 @@ if __name__ == "__main__":
         pages = list(cur.fetchall())
     finally:
         conn.close()
+
+    for page in pages:
+        if page["website"]:
+            if page["website"].startswith("<<"):
+                page["website"] = None
+            elif "://" not in page["website"]:
+                page["website"] = "http://" + page["website"]
 
     today = datetime.today()
     today = datetime.combine(today, datetime.min.time())
