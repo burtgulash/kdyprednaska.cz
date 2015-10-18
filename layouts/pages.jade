@@ -3,35 +3,37 @@
 extends ./base.jade
 
 block content
-    ul.data
-        for page in pages
-            li
-                +page_li(page)
+    .col
+        h3 kluby
+        ul.data
+            for page in pages
+                li
+                    +page_li(page)
 
 
 mixin events_link(page, count_text)
     a(href="#{page.link}/events")= count_text
 
 mixin page_li(page)
-    div.float-left.picture
+    .float-left.picture
         a(href="#{page.link}")
             img(src="#{page.picture}",alt="#{page.username}")
-    div.float-left.rest
-        div.list-item-title
+    .float-left.rest
+        .list-item-title
             a(href="#{page.link}")= page.name
-        div.details
+        .details
             if page.username
                 div
                     a(href="#{page.link}")= page.username
 
             if (page.website | is_url)
-                div.sep #
-                div.website
+                .sep #
+                .website
                     a(href="#{page.website}")= page.website
             if page.email
-                div.sep #
-                div.email= page.email
-        div.details
+                .sep #
+                .email= page.email
+        .details
             div
                 if page.likes >= 5
                     #{page.likes} fb liků
@@ -41,7 +43,7 @@ mixin page_li(page)
                     | 1 fb like
                 else
                     | žádný fb like
-            div.sep #
+            .sep #
             div
                 if page.event_count >= 5
                     +events_link(page, page.event_count|string + " přednášek")
@@ -52,4 +54,4 @@ mixin page_li(page)
                 else
                     +events_link(page, "žádná přednáška")
 
-    div.clear
+    .clear

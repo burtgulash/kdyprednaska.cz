@@ -3,8 +3,8 @@
 extends ./base.jade
 
 block content
-    div.column.float-left
-        div.today
+    .col.col-2.float-left
+        .today
             h3 dnes - #{today.strftime("%d.%m.%Y")}
             if events_today
                 ul.data
@@ -14,7 +14,7 @@ block content
             else
                 p.nic Nic
 
-        div.tomorrow
+        .tomorrow
             h3 zítra - #{tomorrow.strftime("%d.%m.%Y")}
             if events_tomorrow
                 ul.data
@@ -24,7 +24,7 @@ block content
             else
                 p.nic Nic
 
-        div.tomorrow
+        .tomorrow
             h3 pozítří - #{tomorrow2.strftime("%d.%m.%Y")}
             if events_tomorrow2
                 ul.data
@@ -35,7 +35,7 @@ block content
                 p.nic Nic
 
 
-    div.column.float-left
+    .col.col-2.float-left
         div
             if current_week
                 h3 tenhle týden
@@ -45,4 +45,4 @@ block content
                 for event in events_week
                     li
                         +event_li(event)
-    div.clear
+    .clear

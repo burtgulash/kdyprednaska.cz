@@ -12,9 +12,12 @@ html {
     font-family: "PT Sans", sans-serif;
 }
 
-.column {
+.col {
     box-sizing: border-box;
     padding: 0 12px;
+}
+
+.col-2 {
     width: 50%;
 }
 
@@ -139,10 +142,14 @@ nav {
         li {
             display: inline-block;
             padding: 0;
-            margin-right: 1em;
+            margin-right: 1.25em;
             font-size: 1.25em;
         }
     }
+}
+
+.updated-at {
+    margin-left: 1em;
 }
 
 @media screen and (max-width: 640px) {
@@ -158,8 +165,15 @@ nav {
     .rest {
         width: 100%;
     }
-    .column {
-        width: 100%;
+    .col {
         padding: 0;
+    }
+    .col-2 {
+        width: 100%;
+    }
+
+    nav ul li {
+        display: block;
+        margin: .75em 0;
     }
 }
