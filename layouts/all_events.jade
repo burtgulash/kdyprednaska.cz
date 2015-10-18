@@ -1,0 +1,11 @@
+//- all_events.jade
+
+extends ./base.jade
+
+block content
+    div
+        h3 všechny přednášky
+        ul.data
+            for event in events
+                li
+                    +event_li(event)

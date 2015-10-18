@@ -1,5 +1,36 @@
 //- base.jade
 
+mixin event_li(event)
+    div.float-left.picture
+        a(href="#{event.link}")
+            img(src="#{event.picture}",alt="#{event.username}")
+    div.rest
+        div.list-item-title
+            a(href="#{event.link}")= event.event_name
+        div.details
+            if event.end_time
+                div.start-end(title="#{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}")= event.start_time.strftime("%d.%m.%Y %H:%M")
+            else
+                div.start= event.start_time.strftime("%d.%m.%Y %H:%M")
+            div.sep #
+            div.page
+                a(href="http://facebook.com/#{event.page_id}")= event.page_name
+            if event.place_name
+                div.sep #
+                div.place= event.place_name
+        div.details
+            div.counts
+                div.count(title="#{event.attending_count} se zúčastní")= event.attending_count
+                div.count-sep /
+                div.count(title="#{event.maybe_count} možná")= event.maybe_count
+                div.count-sep /
+                div.count(title="#{event.declined_count} zamítnutí")= event.declined_count
+                div.count-sep /
+                div.count(title="#{event.noreply_count} zatím neodpovědělo na účast")= event.noreply_count
+    div.clear
+
+
+
 !!! 5
 html(lang="cz")
     head
@@ -26,7 +57,7 @@ html(lang="cz")
             nav
                 ul
                     li
-                        a(href="/") všechnypřednášky
+                        a(href="vsechny.html") všechny přednášky
                     li
                         a(href="kluby.html") přehled klubů
 
@@ -37,3 +68,6 @@ html(lang="cz")
                 if now
                     p naposled aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}
                 p burtgulash 2015
+
+
+
