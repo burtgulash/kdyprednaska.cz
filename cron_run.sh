@@ -13,5 +13,4 @@ then
 fi
 
 ./fetch.py -c $2
-./compile.py -c $2 > $1/dist/index.html
-./compile_pages.py -c $2 > $1/dist/kluby.html
+./compile.py -c $2
