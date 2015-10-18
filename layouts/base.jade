@@ -52,9 +52,6 @@ html(lang="cz")
             block header
                 h1
                     a(href="/") KdyPřednáška?cz
-                p Veřejně přístupné přednášky na VŠE Praha
-                    if now
-                        span.updated-at [naposledy aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}]
 
             nav
                 ul
@@ -63,7 +60,12 @@ html(lang="cz")
                     li
                         a(href="vsechny.html") všechny přednášky
                     li
-                        a(href="kluby.html") přehled klubů
+                        a(href="kluby.html") školní kluby
+
+            .header-description
+                p Veřejně přístupné přednášky na VŠE Praha
+                    if now
+                        span.updated-at [naposledy aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}]
 
         block content
 
