@@ -12,7 +12,14 @@ j2 = jinja2.Environment(
     extensions=["pyjade.ext.jinja.PyJadeExtension"]
 )
 
-j2.filters["is_url"] = lambda text: text.startswith("http") if text else False
+def is_url(url):
+    if url:
+        if url.startswith("<<"):
+            return False
+        return True
+    return False
+
+j2.filters["is_url"] = is_url
 
 if __name__ == "__main__":
     args = get_args()

@@ -2,17 +2,7 @@ $link-color: #167600;
 $text-color: #555;
 $heading-color: #222;
 
-@media screen and (max-width: 640px) {
-    div.sep {
-        display: none !important;
-    }
-    div.details > div {
-        width: 100%;
-    }
-    .float-left {
-        width: 100%;
-    }
-}
+
 
 
 html {
@@ -22,7 +12,7 @@ html {
     font-family: "PT Sans", sans-serif;
 }
 
-.col-left, .col-right {
+.column {
     box-sizing: border-box;
     padding: 0 12px;
     width: 50%;
@@ -34,15 +24,17 @@ div {
 }
 
 div.header {
-    margin: 2em 0 3em 0;
+    margin: 2em 0 1em 0;
     h1 {
-        font-family: "Alegreya", serif;
-        font-size: 2.5em;
+        font-family: "PT Sans", sans-serif;
+        font-size: 2.8125em;
         letter-spacing: -1px;
-        font-weight: normal;
+        font-weight: bold;
         margin: 0;
         padding: 0;
-        color: $heading-color;
+        a {
+            color: $heading-color;
+        }
     }
     p {
         margin: .5em 0;
@@ -153,6 +145,21 @@ nav {
     }
 }
 
-.today {
-    margin-bottom: 2em;
+@media screen and (max-width: 640px) {
+    div.sep {
+        display: none !important;
+    }
+    div.details > div {
+        width: 100%;
+    }
+    .picture {
+        width: 100%;
+    }
+    .rest {
+        width: 100%;
+    }
+    .column {
+        width: 100%;
+        padding: 0;
+    }
 }

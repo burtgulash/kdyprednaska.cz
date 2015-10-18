@@ -3,7 +3,7 @@
 extends ./base.jade
 
 block content
-    div.col-left.float-left
+    div.column.float-left
         div.today
             h3 dnes - #{today.strftime("%d.%m.%Y")}
             if events_today
@@ -31,7 +31,7 @@ block content
                             +event_li(event)
             else
                 p.nic Nic
-    div.col-right.float-left
+    div.column.float-left
         div
             if current_week
                 h3 tenhle týden
