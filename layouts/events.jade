@@ -3,20 +3,45 @@
 extends ./base.jade
 
 block content
-    div.today
-        h3 dnes - #{today.strftime("%d.%m.%Y")}
-        ul.data
-            for event in events
-                if today <= event.start_time < tomorrow
+    div.col-left.float-left
+        div.today
+            h3 dnes - #{today.strftime("%d.%m.%Y")}
+            if events_today
+                ul.data
+                    for event in events_today
+                        li
+                            +event_li(event)
+            else
+                p.nic Nic
+        div.tomorrow
+            h3 zítra - #{tomorrow.strftime("%d.%m.%Y")}
+            if events_tomorrow
+                ul.data
+                    for event in events_tomorrow
+                        li
+                            +event_li(event)
+            else
+                p.nic Nic
+        div.tomorrow
+            h3 pozítří - #{tomorrow2.strftime("%d.%m.%Y")}
+            if events_tomorrow2
+                ul.data
+                    for event in events_tomorrow2
+                        li
+                            +event_li(event)
+            else
+                p.nic Nic
+    div.col-right.float-left
+        div
+            if current_week
+                h3 tenhle týden
+            else
+                h3 příští týden
+            ul.data
+                for event in events_week
                     li
                         +event_li(event)
-
-    div
-        h3 všechny přednášky
-        ul.data
-            for event in events
-                li
-                    +event_li(event)
+    div.clear
 
 
 
@@ -24,7 +49,7 @@ mixin event_li(event)
     div.float-left.picture
         a(href="#{event.link}")
             img(src="#{event.picture}",alt="#{event.username}")
-    div.float-left.rest
+    div.rest
         div.list-item-title
             a(href="#{event.link}")= event.event_name
         div.details

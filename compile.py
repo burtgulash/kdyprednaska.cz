@@ -59,12 +59,37 @@ if __name__ == "__main__":
     today = datetime.today()
     today = datetime.combine(today, datetime.min.time())
     today = today.replace(tzinfo=pytz.UTC)
+    tomorrow = today + timedelta(days=1)
+    tomorrow2 = today + timedelta(days=2)
+    weekday = today.weekday()
+
+    week_start = today - timedelta(days=weekday)
+    week_end = week_start + timedelta(weeks=1)
+
+    current_week = True
+    # if it is weekend at the moment, show next week instead of current week
+    if weekday >= 5:
+        current_week = False
+        week_start += timedelta(weeks=1)
+        week_end += timedelta(weeks=1)
+
+
+    events_today = [e for e in events if e["start_time"].date() == today.date()]
+    events_tomorrow = [e for e in events if e["start_time"].date() == tomorrow.date()]
+    events_tomorrow2 = [e for e in events if e["start_time"].date() == tomorrow2.date()]
+    events_week = [e for e in events if week_start.date() <= e["start_time"].date() < week_end.date()]
 
     t = j2.get_template("events.jade")
     print(t.render(
         events=events,
+        events_today=events_today,
+        events_tomorrow=events_tomorrow,
+        events_tomorrow2=events_tomorrow2,
+        events_week=events_week,
         now=datetime.now(),
         today=today,
-        tomorrow=today + timedelta(days=1)
+        tomorrow=tomorrow,
+        tomorrow2=tomorrow2,
+        current_week=current_week,
     ))
 

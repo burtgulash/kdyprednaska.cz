@@ -22,13 +22,18 @@ html {
     font-family: "PT Sans", sans-serif;
 }
 
+.col-left, .col-right {
+    box-sizing: border-box;
+    padding: 0 12px;
+    width: 50%;
+}
+
 div {
     overflow: hidden;
     word-wrap: break-word;
 }
 
 div.header {
-    text-align: center;
     margin: 2em 0 3em 0;
     h1 {
         font-family: "Alegreya", serif;
@@ -63,7 +68,7 @@ a {
 }
 
 body {
-    max-width: 720px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 15px;
 }
@@ -108,6 +113,11 @@ footer {
     margin: 6em 0 9em 0;
 }
 
+.nic {
+    font-size: 1.125em;
+    padding-left: 1.5em;
+}
+
 .picture {
     width: 55px;
     margin-right: 25px;
@@ -117,7 +127,8 @@ footer {
 }
 
 .rest {
-    max-width: 720px - 55px - 25px;
+    width: auto;
+    overflow: hidden
 }
 
 .float-left {
@@ -130,14 +141,14 @@ footer {
 }
 
 nav {
-    text-align: center;
     ul {
         list-style-type: none;
         padding: 0;
         li {
             display: inline-block;
             padding: 0;
-            margin: 0 1em;
+            margin-right: 1em;
+            font-size: 1.25em;
         }
     }
 }

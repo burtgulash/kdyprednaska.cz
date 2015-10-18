@@ -2,7 +2,7 @@
 
 all: css compile-events compile-pages
 db:
-	cat db.sql | psql -d kdyprednaska -U io -W
+	cat db.sql | psql -d kdyprednaska -U kdyprednaska -W
 fetch:
 	./fetch.py
 compile-events:
