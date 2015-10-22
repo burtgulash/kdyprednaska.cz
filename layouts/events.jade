@@ -5,7 +5,7 @@ extends ./base.jade
 block content
     .col.col-2.float-left
         .today
-            h3 dnes - #{today.strftime("%d.%m.%Y")}
+            h3 dnes - #{today.weekday() | cz_weekday} #{today.strftime("%d.%m")}
             if events_today
                 ul.data
                     for event in events_today
@@ -15,7 +15,7 @@ block content
                 p.nic Nic
 
         .tomorrow
-            h3 zítra - #{tomorrow.strftime("%d.%m.%Y")}
+            h3 zítra - #{tomorrow.weekday() | cz_weekday} #{tomorrow.strftime("%d.%m")}
             if events_tomorrow
                 ul.data
                     for event in events_tomorrow
@@ -25,7 +25,7 @@ block content
                 p.nic Nic
 
         .tomorrow
-            h3 pozítří - #{tomorrow2.strftime("%d.%m.%Y")}
+            h3 pozítří - #{tomorrow2.weekday() | cz_weekday} #{tomorrow2.strftime("%d.%m")}
             if events_tomorrow2
                 ul.data
                     for event in events_tomorrow2
@@ -37,10 +37,12 @@ block content
 
     .col.col-2.float-left
         div
-            if current_week
-                h3 tenhle týden
-            else
-                h3 příští týden
+            h3
+                if current_week
+                    | tenhle týden
+                else
+                    | příští týden
+                | (#{week_start.strftime("%d.%m")} - #{week_end.strftime("%d.%m")})
             ul.data
                 for event in events_week
                     li

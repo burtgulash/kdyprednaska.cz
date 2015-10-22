@@ -16,6 +16,16 @@ j2 = jinja2.Environment(
     extensions=["pyjade.ext.jinja.PyJadeExtension"]
 )
 
+j2.filters["cz_weekday"] = lambda weekday: {
+    0: "pondělí",
+    1: "úterý",
+    2: "středa",
+    3: "čtvrtek",
+    4: "pátek",
+    5: "sobota",
+    6: "neděle",
+}[weekday]
+
 
 if __name__ == "__main__":
     args = get_args()
@@ -89,8 +99,9 @@ if __name__ == "__main__":
     week_end = week_start + timedelta(weeks=1)
 
     current_week = True
-    # if it is weekend at the moment, show next week instead of current week
-    if weekday >= 5:
+    # if it is weekend at the moment, show next week instead of
+    # current week
+    if weekday >= 3:
         current_week = False
         week_start += timedelta(weeks=1)
         week_end += timedelta(weeks=1)
@@ -114,6 +125,8 @@ if __name__ == "__main__":
             tomorrow=tomorrow,
             tomorrow2=tomorrow2,
             current_week=current_week,
+            week_start=week_start,
+            week_end=week_end,
         ))
 
     t = j2.get_template("all_events.jade")
