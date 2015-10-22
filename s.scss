@@ -1,4 +1,6 @@
-$link-color: #A70;
+$back: #fdffff;
+$title-link-color: #00139a;
+$link-color: #cf8201;
 $text-color: #555;
 $heading-color: #222;
 
@@ -60,11 +62,12 @@ a {
     }
 
     &:visited {
-        color: darken($link-color, 12%);
+        color: $link-color;
     }
 }
 
 body {
+    background-color: $back;
     max-width: 1280px;
     margin: 0 auto;
     padding: 15px;
@@ -94,6 +97,10 @@ ul.data {
 }
 
 .list-item-title {
+    a {
+        color: $title-link-color;
+    }
+
     font-size: 1.25em;
     line-height: 1.125;
     margin-bottom: .125em;
