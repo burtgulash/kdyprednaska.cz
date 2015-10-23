@@ -54,10 +54,6 @@ def fetch_events(page_id, token):
     return requests.get(url)
 
 def store_page(cur, page_id, page):
-    cur.execute("select page_id from pages where page_id = %s",
-        (page_id, )
-    )
-
     page["email"] = None
     if "emails" in page and page["emails"]:
         page["email"] = page["emails"][0]
@@ -77,7 +73,11 @@ def store_page(cur, page_id, page):
         "picture",
     ]
 
+    cur.execute("select page_id from pages where page_id = %s",
+        (page_id, )
+    )
     exists = cur.fetchone()
+
     if not exists:
         cur.execute("""insert into pages ("""
                 + ",".join(fields) + """)
@@ -87,6 +87,16 @@ def store_page(cur, page_id, page):
             [page.get(field) for field in fields]
         )
         log.info("stored page, id=%s", page_id)
+    else:
+        set_str = ", ".join((field + " = %s" for field in fields))
+        cur.execute("update pages set " + set_str +
+                    " where page_id = %s", [
+                        page.get(field)
+                        for field
+                        in fields
+                    ] + [page_id])
+        log.info("updated page, id=%s", page_id)
+
 
 
 def store_location(cur, country, city, street, lat, lon, zip):
