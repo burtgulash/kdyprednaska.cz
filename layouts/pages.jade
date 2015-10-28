@@ -12,7 +12,10 @@ block content
 
 
 mixin events_link(page, count_text)
-    a(href="https://facebook.com/#{page.page_id}/events")= count_text
+    if not page.likes
+        a(href="https://facebook.com/groups/#{page.page_id}/events")= count_text
+    else
+        a(href="https://facebook.com/#{page.page_id}/events")= count_text
 
 mixin page_li(page)
     .float-left.picture
@@ -21,11 +24,11 @@ mixin page_li(page)
     .float-left.rest
         .list-item-title
             a(href="#{page.link}")= page.name
+
         .details
             if page.username
                 div
                     a(href="#{page.link}")= page.username
-
             if page.website
                 .sep #
                 .website
@@ -34,15 +37,16 @@ mixin page_li(page)
                 .sep #
                 .email= page.email
         .details
-            div
-                if page.likes >= 5
-                    #{page.likes} fb liků
-                elif page.likes >= 2
-                    #{page.likes} fb liky
-                elif page.likes == 1
-                    | 1 fb like
-                else
-                    | žádný fb like
+            if page.likes
+                div
+                    if page.likes >= 5
+                        #{page.likes} fb liků
+                    elif page.likes >= 2
+                        #{page.likes} fb liky
+                    elif page.likes == 1
+                        | 1 fb like
+                    else
+                        | žádný fb like
             .sep #
             div
                 if page.event_count >= 5

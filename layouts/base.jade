@@ -45,7 +45,7 @@ html(lang="cs")
         link(href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,latin-ext", rel="stylesheet", type="text/css")
         title
             block title
-                | KdyPřednáška - přednášky na VŠE Praha
+                | KdyPřednáška - přednášky studentských klubů
     body
         .header
             block header
@@ -62,7 +62,7 @@ html(lang="cs")
                         a(href="kluby.html") školní kluby
 
             .header-description
-                p Veřejně přístupné přednášky na VŠE Praha
+                p Veřejně přístupné přednášky studentských klubů v Praze
                     if now
                         span.updated-at [naposledy aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}]
 
@@ -70,7 +70,7 @@ html(lang="cs")
 
         footer
             block footer
-                p něco nefunguje? připomínky? ⇝ 
+                p něco nefunguje? chybí klub v nabídce? připomínky? ⇝ 
                     a(href="mailto:kdyprednaska@gmail.com") kdyprednaska@gmail.com
                 .rage \(^-^)/
 

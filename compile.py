@@ -69,13 +69,10 @@ if __name__ == "__main__":
         events = list(cur.fetchall())
 
 
-        cur.execute("""select p.*,
-                              count(*) event_count
+        cur.execute("""select *,
+                              (select count(*) from events where page_id = p.page_id) event_count
                          from pages p
-                         join events e
-                           on p.page_id = e.page_id
-                     group by p.page_id
-                     order by p.likes desc""", ())
+                     order by likes desc nulls last""", ())
 
         pages = list(cur.fetchall())
     finally:
@@ -87,6 +84,12 @@ if __name__ == "__main__":
                 page["website"] = None
             elif "://" not in page["website"]:
                 page["website"] = "http://" + page["website"]
+
+        # some groups don't contain link attribute
+        # even if they do, change the link to point to facebook, not to some
+        # custom page
+        if not page["link"] or "facebook" not in page["link"]:
+            page["link"] = "https://facebook.com/" + page["page_id"]
 
     today = datetime.today()
     today = datetime.combine(today, datetime.min.time())

@@ -9,22 +9,30 @@ from common import *
 
 log = get_logger()
 
-def fetch_page(page_id, token):
+def fetch_page(page_id, token, isgroup=False):
+    fields = [
+        "about",
+        "emails",
+        "link",
+        "location",
+        "likes",
+        "name",
+        "username",
+        "website",
+        "picture",
+    ]
+    if isgroup:
+        fields = [
+            "email",
+            "link",
+            "name",
+            "picture",
+        ]
     url = "https://graph.facebook.com/{version}/{page_id}?fields={fields}&access_token={token}".format(
         version="v2.5",
         page_id=page_id,
         token=token,
-        fields = ",".join([
-            "about",
-            "emails",
-            "link",
-            "location",
-            "likes",
-            "name",
-            "username",
-            "website",
-            "picture",
-        ])
+        fields = ",".join(fields),
     )
 
     log.info("fetching page, page=%s", page_id)
@@ -55,8 +63,13 @@ def fetch_events(page_id, token):
 
 def store_page(cur, page_id, page):
     page["email"] = None
-    if "emails" in page and page["emails"]:
-        page["email"] = page["emails"][0]
+    if "emails" in page:
+        if page["emails"]:
+            if type(page["emails"]) is list:
+                page["email"] = ", ".join(page["emails"])
+            else:
+                page["email"] = page["emails"]
+        del page["emails"]
 
     page["page_id"] = page_id
     page["picture"] = page["picture"]["data"]["url"]
@@ -186,6 +199,10 @@ if __name__ == "__main__":
 
     for page_id in pages:
         r = fetch_page(page_id, token)
+        if r.status_code != 200:
+            # group must be treated differently than pae
+            r = fetch_page(page_id, token, isgroup=True)
+
         if r.status_code != 200:
             log.error("could not retrieve page, page=%s, err=%s", page_id, r.status_code)
             continue
