@@ -42,6 +42,7 @@ html(lang="cs")
 
         script(src="ga.js", type="text/javascript")
         link(rel="stylesheet", type="text/css", href="/css/style.css")
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
         link(href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,latin-ext", rel="stylesheet", type="text/css")
         title
             block title
@@ -70,8 +71,17 @@ html(lang="cs")
 
         footer
             block footer
-                p něco nefunguje? chybí klub v nabídce? připomínky? ⇝ 
-                    a(href="mailto:kdyprednaska@gmail.com") kdyprednaska@gmail.com
+                p něco nefunguje? chybí klub v nabídce? připomínky? 
+                div.external
+                    ul
+                        li
+                            a(href="mailto:kdyprednaska@gmail.com")
+                                i.fa.fa-facebook
+                                | kdyprednaska@gmail.com
+                        li
+                            a(href="https://facebook.com/kdyprednaska")
+                                i.fa.fa-envelope
+                                | facebook.com/kdyprednaska
                 .rage \(^-^)/
 
 

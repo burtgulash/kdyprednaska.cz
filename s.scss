@@ -112,11 +112,6 @@ div.sep {
     padding: 0 .375em;
 }
 
-footer {
-    text-align: center;
-    margin: 6em 0 9em 0;
-}
-
 .nic {
     font-size: 1.125em;
     padding-left: 1.5em;
@@ -192,6 +187,26 @@ nav {
     .updated-at {
         display: block;
         margin: 0;
+    }
+}
+
+footer {
+    text-align: center;
+    margin: 9em 0 9em 0;
+
+    p {
+        margin: 0;
+    }
+}
+
+.external {
+    ul {
+        margin: 1em;
+        list-style-type: none;
+        padding: 0;
+        i.fa {
+            margin-right: .75em;
+        }
     }
 }
 
