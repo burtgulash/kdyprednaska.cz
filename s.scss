@@ -200,12 +200,22 @@ footer {
 }
 
 .external {
-    ul {
-        margin: 1em;
-        list-style-type: none;
-        padding: 0;
-        i.fa {
-            margin-right: .75em;
+    margin: 0 auto;
+    display: table;
+    padding: .5em;
+    a {
+        text-align: center;
+        display: table-row;
+        span, i {
+            display: table-cell;
+            padding: 1px;
+        }
+        span {
+            padding-left: .75em;
+            text-align: left;
+        }
+        i {
+            text-align: right;
         }
     }
 }
