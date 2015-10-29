@@ -153,8 +153,8 @@ nav {
 }
 
 .updated-at {
-    display: inline-block;
-    margin-left: 1em;
+    margin: .25em 0;
+    font-style: italic;
 }
 
 @media screen and (max-width: 640px) {
@@ -202,7 +202,7 @@ footer {
 .external {
     margin: 0 auto;
     display: table;
-    padding: .5em;
+    padding: .5em 0;
     a {
         text-align: center;
         display: table-row;

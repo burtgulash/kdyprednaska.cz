@@ -64,15 +64,21 @@ html(lang="cs")
                         a(href="kluby.html") studentské organizace
 
             .header-description
-                p Veřejně přístupné přednášky studentských klubů v Praze
+                p 
+                    |Veřejně přístupné přednášky studentských
+                    |klubů v Praze (některé akce jsou spíš
+                    |semináře než přednášky, ale ručně to
+                    |filtrovat se mi nechce).
                     if now
-                        span.updated-at [naposledy aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}]
+                        .updated-at [naposledy aktualizováno #{now.strftime("%d.%m.%Y %H:%M")}]
 
         block content
 
         footer
             block footer
-                p něco nefunguje? chybí klub v nabídce? připomínky? 
+                p 
+                    | něco nefunguje? chybí studenstký klub v
+                    | nabídce? připomínky? 
                 .external
                     a(href="mailto:kdyprednaska@gmail.com")
                         i.fa.fa-envelope
