@@ -29,10 +29,10 @@ mixin page_li(page)
             if page.username
                 div
                     a(href="#{page.link}")= page.username
-            if page.website
+            for website in page.website
                 .sep #
                 .website
-                    a(href="#{page.website}")= page.website
+                    a(href="#{website}")= website
             if page.email
                 .sep #
                 .email= page.email

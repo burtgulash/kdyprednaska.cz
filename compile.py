@@ -80,10 +80,18 @@ if __name__ == "__main__":
 
     for page in pages:
         if page["website"]:
-            if page["website"].startswith("<<"):
-                page["website"] = None
-            elif "://" not in page["website"]:
-                page["website"] = "http://" + page["website"]
+            websites = page["website"].split(" ")
+            ws = []
+            for website in websites:
+                if website.startswith("<<"):
+                    continue
+                elif "://" not in website:
+                    ws.append("http://" + website)
+                else:
+                    ws.append(website)
+            page["website"] = ws
+        else:
+            page["website"] = []
 
         # some groups don't contain link attribute
         # even if they do, change the link to point to facebook, not to some
