@@ -126,11 +126,11 @@ if __name__ == "__main__":
     t = j2.get_template("events.jade")
     with open(os.path.join(dist, "index.html"), "w") as out:
         out.write(t.render(
-            events=events,
-            events_today=events_today,
-            events_tomorrow=events_tomorrow,
-            events_tomorrow2=events_tomorrow2,
-            events_week=events_week,
+            #events=events,
+            events_today=reversed(events_today),
+            events_tomorrow=reversed(events_tomorrow),
+            events_tomorrow2=reversed(events_tomorrow2),
+            events_week=reversed(events_week),
             now=datetime.now(),
             today=today,
             tomorrow=tomorrow,
