@@ -122,6 +122,7 @@ if __name__ == "__main__":
     events_tomorrow = [e for e in events if e["start_time"].date() == tomorrow.date()]
     events_tomorrow2 = [e for e in events if e["start_time"].date() == tomorrow2.date()]
     events_week = [e for e in events if week_start.date() <= e["start_time"].date() < week_end.date()]
+    events_week.sort(key=lambda e: e["attending_count"] + e["maybe_count"])
 
     t = j2.get_template("events.jade")
     with open(os.path.join(dist, "index.html"), "w") as out:
